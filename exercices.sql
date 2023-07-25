@@ -8,7 +8,7 @@ where c.nb_points  = 3;
 --3. Liste des villages (noms) contenant plus de 35 huttes. (4 lignes)
 select v.nom_village 
 from village v 
-where nb_huttes >35;
+where v.nb_huttes >35;
 --4. Liste des trophées (numéros) pris en mai / juin 52. (4 lignes)
 select t.num_trophee 
 from trophee t 
@@ -21,7 +21,7 @@ where h.nom like 'A%r%' or h.nom like 'a%r%';
 --6. Numéros des habitants ayant bu les potions numéros 1, 3 ou 4. (8 lignes)
 select distinct a.num_hab 
 from absorber a  
-where a.num_potion = '1' or num_potion='3' or num_potion='4';
+where a.num_potion = '1' or a.num_potion='3' or a.num_potion='4';
 --7. Liste des trophées : numéro, date de prise, nom de la catégorie et nom du preneur. (10lignes)
 select t.num_trophee, t.date_prise , c.nom_categ, h.nom 
 from trophee t 
@@ -68,7 +68,7 @@ where h2.nom ='Amnésix';
 --14. Nom des habitants dont la qualité n'est pas renseignée. (2 lignes)
 select h.nom
 from habitant h 
-where num_qualite is null ;
+where h.num_qualite is null ;
 --15. Nom des habitants ayant consommé la Potion magique n°1 (c'est le libellé de lapotion) en février 52. (3 lignes)
 select h.nom
 from habitant h 
@@ -98,10 +98,10 @@ join trophee t on t.code_cat = c.code_cat
 join habitant h on t.num_preneur = h.num_hab 
 where h.nom = 'Goudurix';
 --20. Date de première prise de trophée. (03/04/52)
-select min(date_prise) 
+select min(date_prise) as date_de_la_premiere_prise
 from trophee t ;
 --21. Nombre de louches de Potion magique n°2 (c'est le libellé de la potion) absorbées. (19)
-select sum(a.quantite)
+select sum(a.quantite) as nb_de_louches
 from absorber a 
 join potion p on p.num_potion = a.num_potion 
 where p.lib_potion = 'Potion magique n°2';
