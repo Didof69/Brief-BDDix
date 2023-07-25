@@ -61,8 +61,7 @@ where f.num_hab ='3';
 select distinct h.nom
 from habitant h 
 join absorber a on a.num_hab = h.num_hab 
-join potion p on a.num_potion = p.num_potion 
-join fabriquer f on f.num_potion = p.num_potion 
+join fabriquer f on f.num_potion = a.num_potion 
 join habitant h2 on f.num_hab = h2.num_hab 
 where h2.nom ='Amnésix';
 --14. Nom des habitants dont la qualité n'est pas renseignée. (2 lignes)
