@@ -82,7 +82,7 @@ order by h.nom ;
 select r.nom_resserre, v.nom_village 
 from resserre r 
 join village v on v.num_village = r.num_village 
-order by r.superficie ;
+order by r.superficie desc;
 --***
 
 --18. Nombre d'habitants du village numéro 5. (4)
