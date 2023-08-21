@@ -108,26 +108,27 @@ where p.lib_potion = 'Potion magique n°2';
 select max(r.superficie)as la_plus_grande_superficie
 from resserre r ;
 --***
-
 --23. Nombre d'habitants par village (nom du village, nombre). (7 lignes)
-select v.nom_village , v.nb_huttes 
-from village v ;
+select count(h.num_village)
+from habitant h
+join village v on h.num_village  = v.num_village
+group by v.nom_village ;
 --24. Nombre de trophées par habitant (6 lignes)
 select h.nom, count(t.num_trophee) as nombre_de_trophees_gagnes
 from trophee t
 join habitant h on h.num_hab = t.num_preneur 
 group by h.nom ;
 --25. Moyenne d'âge des habitants par province (nom de province, calcul). (3 lignes)
-select p.nom_province, avg(h.age) as moyenne_d_age
+select p.nom_province, round(avg(h.age),2) as moyenne_d_age
 from province p 
 join village v on v.num_province = p.num_province 
 join habitant h on h.num_village = v.num_village 
 group by p.nom_province ;
 --26. Nombre de potions différentes absorbées par chaque habitant (nom et nombre). (9lignes)
-select h.nom, count(a.num_potion) as nombre_potions_differentes
+select h.nom, count(distinct a.num_potion) as nombre_potions_differentes
 from absorber a 
 join habitant h on h.num_hab = a.num_hab 
-group by h.nom;
+group by h.nom ;
 --27. Nom des habitants ayant bu plus de 2 louches de potion zen. (1 ligne)
 select h.nom
 from habitant h 
@@ -152,3 +153,10 @@ having count(t.num_trophee) > (select count(t.num_trophee)
 from trophee t
 join habitant h on h.num_hab = t.num_preneur
 where h.nom = 'Obélix');
+--31. Liste des habitants (noms) qui n'ont pas encore fabriqué de potion.
+select h.nom 
+from habitant h
+except (select distinct h.nom 
+from habitant h 
+join fabriquer f ON f.num_hab = h.num_hab 
+join potion p on p.num_potion = f.num_potion) ;
